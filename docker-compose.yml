@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: sidekick-professores
+    container_name: chat-llm-com-rag
     stdin_open: true
     tty: true
     env_file:
