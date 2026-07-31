@@ -1,0 +1,13 @@
+python-dotenv
+
+langchain
+langchain-core
+langchain-groq
+langchain-mistralai
+langchain-text-splitters
+langchain-chroma
+langchain-huggingface
+langchain-pymupdf4llm
+
+chromadb
+sentence-transformers
