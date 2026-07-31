@@ -8,10 +8,10 @@ e executa um loop de interação via terminal (CLI) com o usuário.
 
 from agents.chat_agent import chat_llm
 from models.model_loader import get_model
-from rag.paths import VECTORSTORE_DIR
 from rag.retriever import get_retriever
 from rag.config import config_rag_chain
 
+VECTOR_PATH = "/app/data/vectorstore/index_chromaDB_professores"
 
 def main() -> None:
     """
@@ -25,7 +25,7 @@ def main() -> None:
 
     # Inicialização dos componentes do RAG
     llm = get_model()
-    retriever = get_retriever(str(VECTORSTORE_DIR))
+    retriever = get_retriever(str(VECTOR_PATH))
     rag_chain = config_rag_chain(llm, retriever)
 
     # Mantém o histórico de mensagens da conversa atual
