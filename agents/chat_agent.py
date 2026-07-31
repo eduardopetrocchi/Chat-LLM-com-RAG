@@ -22,19 +22,16 @@ def chat_llm(rag_chain, user_input: str, chat_history: List) -> Tuple[str, List]
     Retorna:
         Tuple[str, List]: Resposta do assistente e o histórico de chat atualizado.
     """
-    # Adiciona a nova mensagem do usuário ao histórico de chat
-    chat_history.append(HumanMessage(content=user_input))
+    updated_history = list(chat_history)
+    updated_history.append(HumanMessage(content=user_input))
 
-    # Invoca a chain do RAG passando a pergunta atual e o histórico completo
     response = rag_chain.invoke({
         "input": user_input,
-        "chat_history": chat_history
+        "chat_history": list(updated_history),
     })
-    
-    # Extrai o texto da resposta gerada
+
     res = response.get("answer", "")
 
-    # Adiciona a resposta do assistente ao histórico de chat
-    chat_history.append(AIMessage(content=res))
+    updated_history.append(AIMessage(content=res))
 
-    return res, chat_history
+    return res, updated_history

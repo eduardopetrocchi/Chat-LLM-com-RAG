@@ -12,12 +12,13 @@ from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 
 from rag.ingest import config_retriever
-from rag.paths import PDFS_DIR
+
 
 EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
+VECTOR_PATH = "/app/data/vectorstore/index_chromaDB_professores"
+FOLDER_PATH = "/app/data/pdfs"
 
-
-def get_retriever(vector_path: str, k: int = 3, fetch_k: int = 4):
+def get_retriever(folder_path=FOLDER_PATH, vector_path=VECTOR_PATH, k=3, fetch_k=4):
     """
     Carrega o ChromaDB a partir do caminho fornecido. Se o diretório não existir,
     inicia a ingestão automática dos PDFs localizados na pasta de dados padrão.
@@ -39,7 +40,7 @@ def get_retriever(vector_path: str, k: int = 3, fetch_k: int = 4):
         print(
             f"Vectorstore não encontrado em '{vector_path}'. Indexando documentos automaticamente..."
         )
-        vectorstore = config_retriever(str(PDFS_DIR), vector_path)
+        vectorstore = config_retriever(folder_path, vector_path)
     else:
         # Carrega a instância do ChromaDB persistido
         print(f"Vectorstore encontrado em '{vector_path}'. Carregando...")

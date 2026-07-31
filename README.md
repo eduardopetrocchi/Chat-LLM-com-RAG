@@ -111,6 +111,39 @@ llm = get_model("mistral")
 
 Certifique-se de que a chave de API correspondente está definida no `.env`.
 
+## Testes
+
+O projeto usa [pytest](https://docs.pytest.org/) para testes unitários. As dependências externas (LLM, embeddings, ChromaDB, extração de PDF) são mockadas, então os testes rodam rápido e sem precisar de chave de API.
+
+### Instalar dependências de teste
+
+```bash
+pip install pytest pytest-mock
+```
+
+### Rodar os testes
+
+```bash
+pytest
+```
+
+Comandos úteis:
+
+```bash
+pytest -v                                  # modo verboso
+pytest tests/test_retriever.py -v          # rodar só um arquivo
+pytest --cov=. --cov-report=term-missing   # ver cobertura (requer pytest-cov)
+```
+
+### Cobertura atual
+
+| Módulo | Arquivo de teste | O que é testado |
+|---|---|---|
+| `services/pdf_extractor.py` | `test_pdf_extractor.py` | Extração e concatenação do texto das páginas |
+| `rag/ingest.py` | `test_ingest.py` | Tamanho e overlap dos chunks |
+| `rag/retriever.py` | `test_retriever.py` | Carregamento vs. reindexação do vectorstore, parâmetros do MMR |
+| `agents/chat_agent.py` | `test_chat_agent.py` | Atualização do histórico de conversa e resposta do agente |
+
 ## Estrutura do projeto
 
 ```
@@ -128,6 +161,11 @@ Certifique-se de que a chave de API correspondente está definida no `.env`.
 ├── services/
 │   ├── pdf_extractor.py    # Extração de texto com PyMuPDF4LLM
 │   └── pdf_finder.py       # Busca de arquivos PDF
+├── tests/
+│   ├── test_chat_agent.py    # Testes do loop de conversa
+│   ├── test_ingest.py        # Testes de chunking e ingestão
+│   ├── test_pdf_extractor.py # Testes de extração de texto
+│   └── test_retriever.py     # Testes do retriever (MMR)
 ├── data/
 │   ├── pdfs/               # PDFs de entrada (adicionar aqui)
 │   └── vectorstore/        # Índice ChromaDB persistido

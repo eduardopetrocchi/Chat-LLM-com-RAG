@@ -19,14 +19,25 @@ from services.pdf_finder import find_pdfs
 EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
 
 
+def split_documents(loaded_documents, chunk_size=1000, chunk_overlap=200):
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
+
+    chunks = []
+    for doc in loaded_documents:
+        chunks.extend(text_splitter.split_text(doc))
+
+    return chunks
+
+
 def config_retriever(folder_path: str, vector_path: str) -> Chroma:
     """
     Realiza o pipeline completo de RAG Ingest:
     1. Busca todos os PDFs no diretório especificado.
-    2. Extrai o texto contido em cada documento PDF.
-    3. Segmenta o texto em partes menores (chunks) para melhor indexação.
-    4. Inicializa o modelo de embeddings do HuggingFace.
-    5. Salva os embeddings e o texto no banco de vetores ChromaDB.
+    2. Divide o texto em partes menores (chunks) para melhor indexação.
+    3. Inicializa o modelo de embeddings do HuggingFace.
+    4. Cria e persiste o banco de vetores ChromaDB.
 
     Parâmetros:
         folder_path (str): Diretório onde estão os PDFs originais.
@@ -37,28 +48,12 @@ def config_retriever(folder_path: str, vector_path: str) -> Chroma:
     """
     # Localiza arquivos PDF no diretório
     pdf_files = find_pdfs(folder_path)
-    if not pdf_files:
-        print(f"Aviso: Nenhum arquivo PDF encontrado em {folder_path}")
-        return None
 
-    # Extrai o texto de todos os arquivos encontrados
     loaded_documents = [extract_text_pdf(str(pdf)) for pdf in pdf_files]
 
-    # Configura o divisor de texto (Text Splitter)
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
-    )
+    chunks = split_documents(loaded_documents)
 
-    # Divide o texto carregado em fragmentos menores (chunks)
-    chunks = []
-    for doc in loaded_documents:
-        chunks.extend(text_splitter.split_text(doc))
-
-    # Inicializa o modelo de geração de representação vetorial
     embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
-
-    # Cria e persiste o banco de vetores com os fragmentos e seus embeddings
     vectorstore = Chroma.from_texts(
         texts=chunks,
         embedding=embeddings,
