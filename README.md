@@ -1,6 +1,7 @@
 # 🎓 Assistente Pedagógico com RAG
 
 > **Upgrade do projeto [Chat-LLM-com-RAG](https://github.com/eduardopetrocchi/Chat-LLM-com-RAG)**
+> 
 > Nesta versão, a interface de **chat foi substituída por formulários**, simplificando a interação e reduzindo o consumo de tokens.
 
 Um assistente baseado em **LangChain + RAG (Retrieval-Augmented Generation)** que auxilia professores do Ensino Fundamental I na criação de **planos de aula, listas de exercícios e provas**, fundamentados em documentos pedagógicos nas diretrizes da **BNCC**.
