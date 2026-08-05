@@ -1,0 +1,26 @@
+# ── Ambiente e segredos ──────────────────────────────────────
+.env
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# ── Banco vetorial (re-gerado automaticamente na inicialização) ──
+data/vectorstore/
+
+# ── Resultados gerados (.docx) ───────────────────────────────
+resultados/plano_aula/
+resultados/lista_exercicios/
+resultados/prova/
+
+# ── Pasta de dados (PDFs podem ser grandes demais para o repo) ──
+data/pdfs/
+
+# ── HuggingFace cache local ──────────────────────────────────
+.cache/
+
+# ── IDEs ─────────────────────────────────────────────────────
+.vscode/
+.idea/

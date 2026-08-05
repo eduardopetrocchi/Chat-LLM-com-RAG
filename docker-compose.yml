@@ -1,0 +1,27 @@
+services:
+  assistente-professor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: assistente-professor
+    ports:
+      - "8501:8501"
+
+    # Variáveis de ambiente carregadas do arquivo .env local
+    env_file:
+      - .env
+
+    volumes:
+      # PDFs educacionais — adicione novos arquivos aqui
+      # ATENÇÃO: após inserir novos PDFs, apague a pasta data/vectorstore
+      # para forçar a re-indexação (vetoração) dos documentos.
+      - ./data/pdfs:/app/data/pdfs
+
+      # Banco vetorial persistido entre execuções do container
+      - ./data/vectorstore:/app/data/vectorstore
+
+      # Documentos gerados (.docx) — acessíveis na máquina host
+      - ./resultados:/app/resultados
+
+    # Reinicia automaticamente em caso de falha
+    restart: unless-stopped

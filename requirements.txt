@@ -1,0 +1,42 @@
+# ============================================================
+# requirements.txt — Assistente Pedagógico com RAG
+# ============================================================
+# Gerado a partir do ambiente llm_env (Python 3.10)
+# Instale com: pip install -r requirements.txt
+# ============================================================
+
+# --- Interface ---
+streamlit==1.56.0
+
+# --- LangChain core e agentes ---
+langchain==1.2.15
+langchain-classic==1.0.8
+langchain-core==1.5.3
+langchain-community==0.4.1
+langchain-text-splitters==1.1.2
+
+# --- Provedores de LLM ---
+langchain-groq==1.1.2
+langchain-mistralai==1.1.4
+
+# --- RAG: Embeddings e Vector Store ---
+langchain-huggingface==1.2.2
+langchain-chroma==1.1.0
+chromadb==1.5.9
+sentence-transformers==5.4.1
+huggingface_hub==0.36.2
+
+# --- Extração de PDF ---
+langchain-pymupdf4llm==1.28.0
+pymupdf==1.28.0
+pymupdf4llm==1.28.0
+
+# --- Exportação para Word (.docx) ---
+# Requer pandoc instalado no sistema: apt install pandoc
+pypandoc==1.17
+
+# --- Configuração de ambiente ---
+python-dotenv==1.2.2
+
+# --- Testes ---
+pytest==9.1.1
